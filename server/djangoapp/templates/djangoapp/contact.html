@@ -1,13 +1,73 @@
 {% extends "djangoapp/base.html" %}
+{% load static %}
 {% block title %}contact{% endblock %}
 {% block contact %}<a class="nav-item nav-link active" href="#">Contact us</a>{% endblock %}
 {% block content %}
-    <h4 >Phone:</h4>
-    <h5>1-800-BESTCAR (1-800-237-8227)</h5>
-    <h4>Email:</h4>
-    <h5>Contact@bestcars.com</h5>
-    <h4>Address:</h4>
-    <h5>7525 Annabel Mission</h5>
-    <h5>Pacochafurt WY. 23494</h5>
-    <h5>United States</h5>
+    <div class="d-flex flex-wrap p-5 align-content-center" style="background-image: url({% static 'images/United_States_Map.jpeg' %}); background-repeat: no-repeat; background-size: cover; height: 500px; background-position: center center; aspect-ratio 16 / 9;"> 
+        <div class="shadow p-3 header-background">
+            <h1 class="display-3 text-black">Contact us 24-7 with any inquires or concerns</h1>
+        </div>
+    </div>
+    <div class="card-columns">
+        <div class="card">
+            <div class="card-header">
+                <H3>Headquarters</h3>
+            </div>
+            <div class="card-body">
+                <h4>Phone:</h4>
+                <p>1-800-BESTCAR (1-800-237-8227)<p>
+                <h4>Email:</h4>
+                <a href="#">Contact@bestcars.com</a>
+                <h4>Address:</h4>
+                <p>7525 Annabel Mission</p>
+                <p>Pacochafurt WY. 23494</p>
+                <p>United States</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <H3>East Coast</h3>
+            </div>
+            <div class="card-body">
+                <h4>Phone:</h4>
+                <p>1-800-BCEASTC (1-800-223-2782)<p>
+                <h4>Email:</h4>
+                <a href="#">ContactEastCoast@bestcars.com</p>
+                <h4>Address:</h4>
+                <p>349 Schaden Springs</p>
+                <p>Jaskolskiville RI. 31514</p>
+                <p>United States</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <H3>West Coast</h3>
+            </div>
+            <div class="card-body">
+                <h4>Phone:</h4>
+                <p>1-800-BCWESTC (1-800-229-3782)<p>
+                <h4>Email:</h4>
+                <p>ContactWestCoast@bestcars.com</p>
+                <h4>Address:</h4>
+                <p>377 Luz Road, Suite 016</p>
+                <p>Strehrmouth WA. 68268-1977</p>
+                <p>United States</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <H3>South</h3>
+            </div>
+            <div class="card-body">
+                <h4>Phone:</h4>
+                <p>1-800-BCSOUTH (1-800-227-6884)<p>
+                <h4>Email:</h4>
+                <p>ContactSouth@bestcars.com</p>
+                <h4>Address:</h4>
+                <p>10488 Gerlach Cressent</p>
+                <p>Leilaborough TX. 63914-0767</p>
+                <p>United States</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
