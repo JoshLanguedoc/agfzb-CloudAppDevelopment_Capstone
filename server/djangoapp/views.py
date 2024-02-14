@@ -45,9 +45,9 @@ def login_request(request):
             login(request, user) #login user with login method
             return redirect('djangoapp:about') #redirect user to about page
         else: #if credentials are not valid...
-            return render(request, 'djangoapp/user_login.html', context) #redirect user to login page
+            return redirect('djangoapp:about') #redirect user to login page
     else: #if request method is not POST...
-        return render(request, 'djangoapp/user_login.html', context) #redirect user to login page
+        return redirect('djangoapp:about') #redirect user to login page
 
 #logout_request view to handle sign out request
 def logout_request(request):
