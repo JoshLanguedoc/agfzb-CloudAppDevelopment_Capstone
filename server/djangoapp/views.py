@@ -31,13 +31,28 @@ def contact(request):
         return render(request, 'djangoapp/contact.html', context)
 
 
-# Create a `login_request` view to handle sign in request
-# def login_request(request):
-# ...
+#login_request view to handle sign in request
+def login_request(request):
+    context = {}
+    # Handles POST request
+    if request.method == "POST": #If request method is POST...
+        username = request.POST['username'] #get username from request
+        password = request.POST['psw'] #get password from request
 
-# Create a `logout_request` view to handle sign out request
-# def logout_request(request):
-# ...
+        user = authenticate(username=username, password=password) #Check if credentials are valid
+        
+        if user is not None: #if credentials are valid...
+            login(request, user) #login user with login method
+            return redirect('djangoapp:about') #redirect user to about page
+        else: #if credentials are not valid...
+            return render(request, 'djangoapp/user_login.html', context) #redirect user to login page
+    else: #if request method is not POST...
+        return render(request, 'djangoapp/user_login.html', context) #redirect user to login page
+
+#logout_request view to handle sign out request
+def logout_request(request):
+    logout(request)#logout user with logout method
+    return redirect('djangoapp:about')#redirect user back to about page
 
 # Create a `registration_request` view to handle sign up request
 # def registration_request(request):
