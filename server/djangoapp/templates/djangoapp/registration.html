@@ -3,7 +3,7 @@
 {% block title %}registration{% endblock %}
 {% block content %}
     <h1 class="display-1">Sign up</h1>
-    <form action="{% url 'djangoapp:registration' %}" method="POST" id="regForm">
+    <form action="{% url 'djangoapp:registration' %}" method="POST">
         <div class="form-group">
             <label for="email">Email address:</label>
             <input type="email" class="form-control" placeholder="J.Doe@example.com" id="email" required>
@@ -28,29 +28,24 @@
         </div>
         <div class="form-group">
             <label for="confpsw">Confirm Password:</label>
-            <input type="password" class="form-control" placeholder="********" id="confpsw" required>
+            <input type="password" class="form-control" placeholder="********" id="confpsw" oninput="confirmCheck()" required>
         </div>
-        <button type="submit" class="btn btn-primary" id="submitButton">Sign Up</button>
+        <button type="submit" class="btn btn-primary" id="submitButton" disabled = true>Sign Up</button>
     </form>
     <script>
-        function disableSubmit(){
-            document.getElementByID("submitButton").disabled = true;
-        }
-            
         function confirmCheck(){
-            if(document.getElementByID("confpsw").value != ""){
-                if (document.getElementByID("psw").value === document.getElementByID("confpsw").value){
-                    document.getElementByID("submitButton").disabled = false;
+            if(document.getElementById("confpsw").value != ""){
+                if (document.getElementById("psw").value === document.getElementById("confpsw").value){
+                    document.getElementById("submitButton").disabled = false;                    
                 }
                 else{
-                    disableSubmit();
+                    document.getElementById("submitButton").disabled = true;
+                    document.getElementById("confpsw").className = "form-control border border-danger"
                 }
             }
         }
-            
-        document.getElementByID("regForm").onload = disableSubmit();
-            
-        document.getElementByID("confpsw").oninput = confirmCheck();
+
+        
     </script>
 
 {% endblock %}
