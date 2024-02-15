@@ -54,9 +54,11 @@ def logout_request(request):
     logout(request)#logout user with logout method
     return redirect('djangoapp:about')#redirect user back to about page
 
-# Create a `registration_request` view to handle sign up request
-# def registration_request(request):
-# ...
+#registration_request view to handle sign up request
+def registration_request(request):
+    context = {}
+    if request.method == "GET":
+        return render(request, 'djangoapp/registration.html', context)
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
