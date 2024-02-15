@@ -3,7 +3,7 @@
 {% block title %}registration{% endblock %}
 {% block content %}
     <h1 class="display-1">Sign up</h1>
-    <form class="was-validated">
+    <form class="needs-validation">
         <div class="form-group">
             <label for="email">Email address:</label>
             <input type="email" class="form-control" placeholder="J.Doe@example.com" id="email" required>
@@ -60,4 +60,23 @@
         </div>
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
+
+    <script>
+        /*disable form submission if there are invalid fields and display errors to user indicating missing fields
+        */
+       (function(){
+        'use strict';
+        window.addEventListener('load', function(){ //listen for page to load
+            var forms = document.getElementsByClassName('needs-validation'); //get forms to check
+            var validation = Array.prototype.filter.call(forms, function(form){ //loop over forms...
+                form.addEventListener('submit', function(event){ //listening for submissions.
+                    if(form.checkValidity() === false){//check form validity and if false...
+                        event.preventDefault();//prevent default
+                        event.stopPropagation();//stop propogation
+                    }
+                    form.classList.add('was-validated');//add 'was-validated' to start displaying messages
+                }, false);
+            });
+        }, false);
+       })();
 {% endblock %}
