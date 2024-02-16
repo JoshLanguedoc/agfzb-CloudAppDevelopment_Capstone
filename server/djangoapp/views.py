@@ -79,9 +79,10 @@ def registration_request(request):
             #register user:
             user = User.objects.create_user(email= email, username= username, first_name= firstName, last_name= lastName, password= pswrd)
             login(request, user) #log new user in
-            return redirect(201, 'djangoapp:about')
+            return redirect('djangoapp:about')
         else: #is user_exists is true...
-            return response('That username already exists', status = 409) #rerender registration page
+            context= {'message': "That username is alread in use, please try another."}
+            return render(request, 'djangoapp/registration.html', context) #rerender registration page
 
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
