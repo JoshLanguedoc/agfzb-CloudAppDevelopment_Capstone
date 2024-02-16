@@ -56,9 +56,33 @@ def logout_request(request):
 
 #registration_request view to handle sign up request
 def registration_request(request):
+    # Check whether request method is GET or POST and render signup page or attempt to register user respectively
     context = {}
-    if request.method == "GET":
-        return render(request, 'djangoapp/registration.html', context)
+    if request.method == "GET": #if request method is GET...
+        return render(request, 'djangoapp/registration.html', context) #render signup page
+    elif request.method == "POST": #if request method is POST...
+        email = request.POST['email'] #get email from request
+        username = request.POST['username'] #get username from request
+        firstName = request.POST['first_name'] #get first name from request
+        lastName = request.POST['last_name'] #get last name from request
+        pswrd = request.POST['psw'] #get password from request
+
+        user_exists = False #Create a boolean to track whether or not user already exists
+
+        try:
+            User.objects.get(username=username) #check if user already exists, if not an exception will be thrown
+            user_exists = True #with no exception thrown we know a user is already registered with that name
+        except: #catch the exception thrown if no user exists
+            logger.debug("{} is a new user".format(username)) #log {username} is a new user
+        
+        if not user_exists: #if user_exists is false...
+            #register user:
+            user = User.objects.create_user(email= email, username= username, first_name= firstName, last_name= lastName, password= pswrd)
+            login(request, user) #log new user in
+            return redirect(201, 'djangoapp:about')
+        else: #is user_exists is true...
+            return response('That username already exists', status = 409) #rerender registration page
+
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):

@@ -2,50 +2,68 @@
 {% load static %}
 {% block title %}registration{% endblock %}
 {% block content %}
-    <h1 class="display-1">Sign up</h1>
-    <form action="{% url 'djangoapp:registration' %}" method="POST">
-        <div class="form-group">
-            <label for="email">Email address:</label>
-            <input type="email" class="form-control" placeholder="J.Doe@example.com" id="email" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
+    <div class="d-flex flex-wrap p-5 align-content-center" style="background-image: url({% static 'images/Signup_Form.jpeg' %}); background-repeat: no-repeat; background-size: cover; height: 500px; background-position: center center; aspect-ratio 16 / 9;"> 
+        <div class="shadow p-3 header-background">
+            <h1 class="display-1 text-black">Sign Up</h1>
+            <p class="display-4">Create an account with us to post and edit reviews</p>
         </div>
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" placeholder="jdoe" id="username" required>
+    </div>
+    <div class="d-flex justify-content-center p-3">
+        <div class="border border-dark p-3 shadow-lg" style="border-radius: 16px;">
+            <h1 class='h' style="font-weight:bold;">Account Details:</h1>
+            <form action="{% url 'djangoapp:registration' %}" method="POST">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="email">Email address:</label>
+                        <input type="email" class="form-control" placeholder="J.Doe@example.com" id="email" name="email" required>
+                    </div>
+                    <div class="form-group col">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" placeholder="jdoe" id="username" name="username" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" class="form-control" placeholder="Jordan" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="form-group col">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" class="form-control" placeholder="Doe" id="last_name" name="last_name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="psw">Password:</label>
+                    <input type="password" class="form-control" placeholder="********" id="psw" name="psw" oninput="confirmCheck()" required>
+                </div>
+                <div class="form-group">
+                    <label for="confpsw">Confirm Password:</label>
+                    <input type="password" class="form-control" placeholder="********" id="confpsw" oninput="confirmCheck()" required>
+                    <p class="text-danger" id="confirmWarning"></p>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitButton" disabled = true>Sign Up</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="first_name">First Name:</label>
-            <input type="text" class="form-control" placeholder="Jordan" id="first_name" required>
-        </div>
-        <div class="form-group">
-            <label for="last_name">Last Name:</label>
-            <input type="text" class="form-control" placeholder="Doe" id="last_name" required>
-        </div>
-        <div class="form-group">
-            <label for="psw">Password:</label>
-            <input type="password" class="form-control" placeholder="********" id="psw" required>
-        </div>
-        <div class="form-group">
-            <label for="confpsw">Confirm Password:</label>
-            <input type="password" class="form-control" placeholder="********" id="confpsw" oninput="confirmCheck()" required>
-        </div>
-        <button type="submit" class="btn btn-primary" id="submitButton" disabled = true>Sign Up</button>
-    </form>
+    </div>
     <script>
         function confirmCheck(){
-            if(document.getElementById("confpsw").value != ""){
-                if (document.getElementById("psw").value === document.getElementById("confpsw").value){
-                    document.getElementById("submitButton").disabled = false;                    
+            /*
+            Checks if values of password and confirm password inputs match once confirm password is filled out.
+            Called when either password or confirm password inputs' oninput event triggers.
+            */
+            if(document.getElementById("confpsw").value != ""){ //if confirm input is not empty...
+                if (document.getElementById("psw").value === document.getElementById("confpsw").value){ //if password and confirm password value match...
+                    document.getElementById("submitButton").disabled = false; //Enable form's submit button
+                    document.getElementById("confpsw").className = "form-control border border-success"; //Change confirm password input's border to success(green)
+                    document.getElementById("confirmWarning").textContent = ""; //Set confirm warning content to blank
                 }
-                else{
-                    document.getElementById("submitButton").disabled = true;
-                    document.getElementById("confpsw").className = "form-control border border-danger"
+                else{ //if password and confirm password values do not match...
+                    document.getElementById("submitButton").disabled = true; //Disable form's submit button
+                    document.getElementById("confpsw").className = "form-control border border-danger" //Change confirm password input's border to danger(red)
+                    document.getElementById("confirmWarning").textContent = "Passwords do not match" //Set confirm warning content to warnign message
                 }
             }
-        }
-
-        
+        }        
     </script>
 
 {% endblock %}
