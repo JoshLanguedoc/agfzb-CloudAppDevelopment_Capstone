@@ -31,10 +31,11 @@ app.use(express.json());
 
 app.get('/dealerships/get', (req, res) =>{ //define route to get all dealerships with optional state and id filters
     const {state,id} = req.query;
+    const capstate = (state.at(0).toUpperCase()+state.slice(1));
 
     const selector = {}; //create selector dictionary to populate with query params
     if(state){ //if state is not null...
-        selector.state = state; //populate selector.state with state from query
+        selector.state = capstate; //populate selector.state with state from query
     }
 
     if(id){ //if id is not null...
@@ -42,7 +43,7 @@ app.get('/dealerships/get', (req, res) =>{ //define route to get all dealerships
     }
 
     const queryOptions = { //create a query options dictionary
-        selector, //includ selectors
+        selector, //include selectors
         limit: 10, //limit to 10 documents returned
     };
 
