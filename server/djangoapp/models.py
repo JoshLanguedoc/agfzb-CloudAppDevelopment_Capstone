@@ -9,6 +9,17 @@ from django.utils.timezone import now
 # - Description
 # - Any other fields you would like to include in car make model
 # - __str__ method to print a car make object
+class CarMake(models.Model):
+    name = models.CharField(max_length=20)
+    description = models.TextField()
+    country = models.Charfield(max_length=20)
+    parentcompany = models.ForeignKey('self', null= True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Name: " + self.name + "," +\
+            "Parent Company: " + self.parentcompany + "," +\
+            "Country: " + self.Country + "," +\
+            "Description: " + self.description
 
 
 # <HINT> Create a Car Model model `class CarModel(models.Model):`:
