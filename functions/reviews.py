@@ -36,13 +36,10 @@ def get_reviews():
     result = db.get_query_result(selector) #populate result with query results using selector
 
     data_list = [] #creat empty data_list
-    
 
     for doc in result: #iterate through result
         data_list.append(doc) #apped each item in result onto data_list
-
-    print(jsonify(data_list))
-
+    
     return jsonify(data_list) #return jsonified data_list
 
 @app.route('/api/post_review', methods=['POST']) #route wrapper for /api/post_review POST requests
