@@ -8,13 +8,13 @@ class CarMake(models.Model):
     description = models.TextField()
     country = models.CharField(max_length=20)
     #A manufacturers can have one parent manufacturer
-    parentcompany = models.ForeignKey('self', null= True, on_delete=models.CASCADE)
+    parentcompany = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         #return object string representation (name, parent company (if one), country, description)
         return "Name: " + self.name + "," +\
-            "Parent Company: " + self.parentcompany + "," +\
-            "Country: " + self.Country + "," +\
+            "Parent Company: " + str(self.parentcompany) + "," +\
+            "Country: " + self.country + "," +\
             "Description: " + self.description
 
 class CarModel(models.Model):
@@ -70,7 +70,7 @@ class CarModel(models.Model):
     SEV = '7speedmanual'
     
     TRANSMISSION_TYPES_CHOICES = [ #list of (transmission types, human readable values)
-        (CVS, 'Continually Variable Speed (CVS)'),
+        (CVS, 'Continously Variable (CVS/CVT)'),
         (AUT, 'Automatic'),
         (SEM, 'Semiautomatic (optional manual mode)'),
         (ONE, '1 Speed (Manual)'),
@@ -82,9 +82,35 @@ class CarModel(models.Model):
         (SEV, '7 Speed (Manual)')
     ]
 
+    FWD = 'frontwheeldrive'
+    RWD = 'rearwheeldrive'
+    AWD = 'allwheeldrive'
+    IWD = '4wheeldrive'
+
+    DRIVETRAIN_TYPES_CHOICES = [
+        (FWD, "Front Wheel Drive (FWD)"),
+        (RWD, "Rear Wheel Drive (RWD)"),
+        (AWD, "All Wheel Drive (AWD)"),
+        (IWD, "4 Wheel Drive (4WD)")
+    ]
+
+    ELC = 'electric'
+    GAS = 'gas'
+    DEI = 'Deisel'
+
+    FUEL_TYPES_CHOICES = [
+        (ELC, "Electric"),
+        (GAS, "Gasoline"),
+        (DEI, "Deisel")
+    ]
+
     name = models.CharField(max_length=50)  
     year = models.PositiveIntegerField(validators=[MinValueValidator(1900, message="Henry Ford's Model T was one of the first mass production automobiles ever and was delivered to it's first customer in 1908. Please input a production year later than 1900.")])
+    exteriorcolour = models.CharField(max_length=25)
+    interiorcolour = models.CharField(max_length=25)
+    mileage = models.PositiveIntegerField()
     engine = models.CharField(max_length=50)
+    trimlevel = models.CharField(max_length=25)
     description = models.TextField()
     
     bodytype = models.CharField(
@@ -92,23 +118,40 @@ class CarModel(models.Model):
         choices=BODY_TYPE_CHOICES,
         default=SED
     )
+
     transmissiontype = models.CharField(
         max_length=15,
         choices=TRANSMISSION_TYPES_CHOICES,
         default=AUT
     )
 
-    make = models.ForeignKey(CarMake, null=False, on_delete=models.CASCADE)
-    
+    drivetraintype = models.CharField(
+        max_length=15,
+        choices=DRIVETRAIN_TYPES_CHOICES,
+        default=FWD
+    )
+
+    fueltype = models.CharField(
+        max_length=15,
+        choices=FUEL_TYPES_CHOICES,
+        default=GAS
+    )
+
+    make = models.ForeignKey(CarMake, null=False, on_delete=models.CASCADE)    
     
     def __str__(self):
         #return object string representation (name, make, body type, year, engine, transmission, description)
         return "Name: " + self.name + "," +\
-            "Make: " + self.make + "," +\
+            "Make: " + str(self.make) + "," +\
+            "Trim Level: " + self.trimlevel + "," +\
             "Body Type: " + self.bodytype + "," +\
-            "Year: " + self.year + "," +\
+            "Year: " + str(self.year) + "," +\
+            "Exterior Colour: " + self.exteriorcolour + "," +\
+            "Interior Colour: " + self.interiorcolour + "," +\
             "Engine: " + self.engine + "," +\
+            "Fuel Type: " + self.fueltype + "," +\
             "Transmission: " + self.transmissiontype + "," +\
+            "Mileage: " + str(self.mileage) + "," +\
             "Description: " + self.description
 
 
