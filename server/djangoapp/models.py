@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.timezone import now
 
@@ -43,7 +44,7 @@ class CarModel(models.Model):
         (COU, 'Coupe'),
         (FLO, 'Flower Car'),
         (HTD, 'Hatchback (3DR)'),
-        (HFD, 'Hatchback (5DR)')
+        (HFD, 'Hatchback (5DR)'),
         (HEA, 'Hearse'),
         (LIM, 'Limousine'),
         (MIC, 'Microvan'),
@@ -82,22 +83,22 @@ class CarModel(models.Model):
     ]
 
     name = models.CharField(max_length=50)  
-    year = models.PositiveInteger(validators=[MinValueValidator(1900, message="Henry Ford's Model T was one of the first mass production automobiles ever and was delivered to it's first customer in 1908. Please input a production year later than 1900.")])
+    year = models.PositiveIntegerField(validators=[MinValueValidator(1900, message="Henry Ford's Model T was one of the first mass production automobiles ever and was delivered to it's first customer in 1908. Please input a production year later than 1900.")])
     engine = models.CharField(max_length=50)
     description = models.TextField()
     
     bodytype = models.CharField(
         max_length=20,
         choices=BODY_TYPE_CHOICES,
-        default=SEDAN
+        default=SED
     )
-    transmissiontype = moels.CharField(
+    transmissiontype = models.CharField(
         max_length=15,
         choices=TRANSMISSION_TYPES_CHOICES,
-        default=AUTO
+        default=AUT
     )
 
-    make = models.ForeignKey(CarMake, null=false, on_delete=models.CASCADE)
+    make = models.ForeignKey(CarMake, null=False, on_delete=models.CASCADE)
     
     
     def __str__(self):
