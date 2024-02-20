@@ -59,5 +59,5 @@ app.get('/dealerships/get', (req, res) =>{ //define route to get all dealerships
 });
 
 app.listen(port, () => { //server listen on port 3000
-    console.log('Server is runnint on port '+port); //log when server starts up in console
+    console.log('Server is running on port '+port); //log when server starts up in console
 });

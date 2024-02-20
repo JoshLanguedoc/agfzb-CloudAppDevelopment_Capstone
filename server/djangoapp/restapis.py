@@ -1,13 +1,21 @@
 import requests
 import json
-# import related models here
+from .models import CarDealer
 from requests.auth import HTTPBasicAuth
 
+def get_request(url, **kwargs):
+    # get_request to make HTTP GET requests to dealerships cloudant database
+    print(kwargs)
+    print("Get from {}".format(url))
+    try:
+        response = request.get(url, headers={'Content-Type': 'application/json'}, params=kwargs)
+    except:
+        print("Network exception occured")
 
-# Create a `get_request` to make HTTP GET requests
-# e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
-#                                     auth=HTTPBasicAuth('apikey', api_key))
-
+    status_code = response.status_code
+    print("with status {}",format(status_code))
+    json_data = json.loads(respones.text)
+    retunr json_data
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
