@@ -137,7 +137,7 @@ class CarModel(models.Model):
         default=GAS
     )
 
-    make = models.ForeignKey(CarMake, null=False, on_delete=models.CASCADE)    
+    make = models.ForeignKey(CarMake, null=False, on_delete=models.CASCADE)
     
     def __str__(self):
         #return object string representation (name, make, body type, year, engine, transmission, description)
@@ -151,6 +151,7 @@ class CarModel(models.Model):
             "Engine: " + self.engine + "," +\
             "Fuel Type: " + self.fueltype + "," +\
             "Transmission: " + self.transmissiontype + "," +\
+            "Drive Train: " + self.drivetraintype + "," +\
             "Mileage: " + str(self.mileage) + "," +\
             "Description: " + self.description
 
