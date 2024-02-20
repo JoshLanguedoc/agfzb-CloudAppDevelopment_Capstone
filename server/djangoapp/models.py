@@ -112,6 +112,7 @@ class CarModel(models.Model):
     engine = models.CharField(max_length=50)
     trimlevel = models.CharField(max_length=25)
     description = models.TextField()
+    dealerid = models.IntegerField()
     
     bodytype = models.CharField(
         max_length=20,
@@ -153,7 +154,8 @@ class CarModel(models.Model):
             "Transmission: " + self.transmissiontype + "," +\
             "Drive Train: " + self.drivetraintype + "," +\
             "Mileage: " + str(self.mileage) + "," +\
-            "Description: " + self.description
+            "Description: " + self.description + "," +\
+            "Dealer Id: " + str(self.dealerid)
 
 
 
