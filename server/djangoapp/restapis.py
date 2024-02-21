@@ -1,6 +1,6 @@
 import requests
 import json
-from .models import CarDealer
+from .models import CarDealer, DealerReviews
 from requests.auth import HTTPBasicAuth
 
 def get_request(url, **kwargs):
@@ -16,7 +16,8 @@ def get_request(url, **kwargs):
         print("Network exception occured")
 
     status_code = response.status_code #set statue_code to equal the response status code
-    print("with status {}",format(status_code)) #print response status code
+    print("with status: ", status_code) #print response status code
+    print(response.text)
     json_data = json.loads(response.text) #populate json_data with response as a josn
     return json_data #send json data with response
 
@@ -83,17 +84,19 @@ def get_dealers_by_state(url, state):
 def get_dealer_reviews_from_cf(url, dealerId):
     results = []
 
-    json_result = get_request(url, dealerId)
+    json_result = get_request(url, dealerId=dealerId)
     if json_result:
         reviews = json_result
 
         for review in reviews:
             review_doc = review
-            review_obj = DealerReview(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
+            print("Review:", review_doc)
+            print("Dealership:", review_doc["dealership"])
+            review_obj = DealerReviews(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
                                     review=review_doc["review"], purchase_date=review_doc["purchase_date"], 
-                                    car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"], 
-                                    sentiment=review_doc["sentiment"], id=review_doc["id"])
-            results.append(dealer_obj)
+                                    car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"],
+                                    id=review_doc["id"])
+            results.append(review_obj)
 
     return results
 

@@ -126,11 +126,18 @@ def get_dealerships(request):
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-def get_dealer_details(request, dealerId):
+def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
-        url = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
-        dealerships = get_dealer_by_id(url, dealerId)
+        dealershipurl = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        reviewsurl = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
+        
+        dealership = get_dealer_by_id(dealershipurl, dealer_id)
+        reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
+
+        context = {'dealership_details': dealership, 'reviews':reviews}
+
+        return HttpResponse(context)
 
 
 # Create a `add_review` view to submit a review
