@@ -80,7 +80,7 @@ def get_dealers_by_state(url, state):
 
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
-def get_dealer_by_id_from_cf(url, dealerId):
+def get_dealer_reviews_from_cf(url, dealerId):
     results = []
 
     json_result = get_request(url, dealerId)
@@ -96,7 +96,6 @@ def get_dealer_by_id_from_cf(url, dealerId):
             results.append(dealer_obj)
 
     return results
-
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 # def analyze_review_sentiments(text):
