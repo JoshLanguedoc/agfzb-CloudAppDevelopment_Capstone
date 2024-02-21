@@ -30,16 +30,20 @@ let db;
 app.use(express.json());
 
 app.get('/dealerships/get', (req, res) =>{ //define route to get all dealerships with optional state and id filters
-    const {state,id} = req.query;
-    const capstate = (state.at(0).toUpperCase()+state.slice(1));
+    console.log("Recieved request");
+    const {state,dealerId} = req.query;
+    console.log("State: ",state);
+    console.log("ID: ",dealerId);
+    
 
     const selector = {}; //create selector dictionary to populate with query params
     if(state){ //if state is not null...
+        const capstate = (state.at(0).toUpperCase()+state.slice(1));
         selector.state = capstate; //populate selector.state with state from query
     }
 
-    if(id){ //if id is not null...
-        selector.id = parseInt(id); //populate selector.id with id from query
+    if(dealerId){ //if id is not null...
+        selector.id = parseInt(dealerId); //populate selector.id with id from query
     }
 
     const queryOptions = { //create a query options dictionary

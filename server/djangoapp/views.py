@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from .restapis import get_dealers_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_by_id, get_dealers_by_state
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -87,15 +87,42 @@ def registration_request(request):
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
+    
     context = {}
     if request.method == "GET":
-        url = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/"
+        url = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        try:
+            dealerId = request.GET['dealerId']
+        except:
+            dealerId = False
+        try:
+            state = request.GET['state']
+        except:
+            state = False
 
-        dealerships = get_dealers_from_cf(url)
+        if dealerId:
+            print("get by ID")
+            dealerships = get_dealer_by_id(url, dealerId)
 
-        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
+            dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
 
-        return HttpResponse(dealer_names)
+            return HttpResponse(dealer_names)
+        
+        elif state:
+            print("get by State")
+            dealerships = get_dealers_by_state(url, state)
+
+            dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
+
+            return HttpResponse(dealer_names)
+
+        else:
+            print("get all")
+            dealerships = get_dealers_from_cf(url)
+
+            dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
+
+            return HttpResponse(dealer_names)
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
