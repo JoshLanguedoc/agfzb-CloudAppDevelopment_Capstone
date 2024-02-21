@@ -24,7 +24,6 @@ def get_request(url, **kwargs):
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 
 
-# Create a get_dealers_from_cf method to get dealers from a cloud function
 def get_dealers_from_cf(url, **kwargs):
     results = []
 
@@ -81,9 +80,22 @@ def get_dealers_by_state(url, state):
 
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
-# def get_dealer_by_id_from_cf(url, dealerId):
-# - Call get_request() with specified arguments
-# - Parse JSON results into a DealerView object list
+def get_dealer_by_id_from_cf(url, dealerId):
+    results = []
+
+    json_result = get_request(url, dealerId)
+    if json_result:
+        reviews = json_result
+
+        for review in reviews:
+            review_doc = review
+            review_obj = DealerReview(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
+                                    review=review_doc["review"], purchase_date=review_doc["purchase_date"], 
+                                    car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"], 
+                                    sentiment=review_doc["sentiment"], id=review_doc["id"])
+            results.append(dealer_obj)
+
+    return results
 
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
