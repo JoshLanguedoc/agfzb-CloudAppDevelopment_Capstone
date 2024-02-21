@@ -19,7 +19,7 @@ app = Flask(__name__)
 def get_reviews():
     #Checks request for a valid dealership id then returns requested dealership.
     
-    dealership_id = request.args.get('id') #get dealership id from request
+    dealership_id = request.args.get('dealerId') #get dealership id from request
 
     if dealership_id is None: #if dealership id it empty...
         return jsonify({"error": "Missing 'id' parameter in the url"}), 400 #return error with missing id message
@@ -52,7 +52,7 @@ def post_review():
 
     review_data = request.json #populate review_data to equal request data.
 
-    required_fields = ['id', 'name', 'dealership', 'review', 'purchase_date', 'car_model', 'car_year'] #create required_fields list
+    required_fields = ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year', ] #create required_fields list
 
     for field in required_fields: #iterate through required_fields
         if field not in review_data: #if field is not in review_data...

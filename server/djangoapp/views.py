@@ -135,8 +135,6 @@ def get_dealer_details(request, dealer_id):
         dealership = get_dealer_by_id(dealershipurl, dealer_id)
         reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
 
-        context = {'dealership_details': dealership, 'reviews':reviews}
-
         return HttpResponse(context)
 
 
