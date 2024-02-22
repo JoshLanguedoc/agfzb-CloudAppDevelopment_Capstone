@@ -2,7 +2,7 @@ import requests
 import json
 from .models import CarDealer, DealerReviews
 from requests.auth import HTTPBasicAuth
-from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_watson import NaturalLanguageUnderstandingV1, ApiException
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
 
@@ -87,11 +87,13 @@ def get_dealer_reviews_from_cf(url, dealerId):
         for review in reviews:
             review_doc = review
             sentiment = analyze_review_sentiments(review_doc['review'])
-            print(sentiment)
+            if sentiment == "Unable to analyse":
+                sentiment_label = sentiment['sentiment']['document']['label']
+
             review_obj = DealerReviews(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
                                     review=review_doc["review"], purchase_date=review_doc["purchase_date"], 
                                     car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"],
-                                    sentiment = sentiment, id=review_doc["id"])
+                                    sentiment = sentiment['sentiment_label']['document']['label'], id=review_doc["id"])
             results.append(review_obj)
 
     return results
@@ -106,9 +108,14 @@ def analyze_review_sentiments(text):
 
     nlu.set_service_url('https://api.us-east.natural-language-understanding.watson.cloud.ibm.com/instances/ef0db16c-6adb-4d00-b088-a8f0575fa0a3')
 
-    response = nlu.analyze(
-        text = text, 
-        features = Features(sentiment=SentimentOptions())
-        ).get_result()
+    print("Analyzing phrase: ",text)
+    try:
+        response = nlu.analyze(
+            text = text, 
+            features = Features(sentiment=SentimentOptions())
+            ).get_result()
+    except ApiException as error:
+        if error.message == 'not enough text for language id':
+            response = 'Unable to analyse'
 
     return (response)
