@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from .restapis import get_dealers_from_cf, get_dealer_by_id, get_dealers_by_state, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_by_id, get_dealers_by_state, get_dealer_reviews_from_cf, analyze_review_sentiments
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -142,6 +142,9 @@ def get_dealer_details(request, dealer_id):
 
         return HttpResponse(dealerdetails)
 
+def testingNLU(request):
+    text = "This is great"
+    analyze_review_sentiments(text)
 
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):

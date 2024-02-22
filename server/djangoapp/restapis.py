@@ -2,6 +2,9 @@ import requests
 import json
 from .models import CarDealer, DealerReviews
 from requests.auth import HTTPBasicAuth
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
 
 def get_request(url, **kwargs):
     # get_request to make HTTP GET requests to dealerships cloudant database
@@ -43,6 +46,7 @@ def get_dealers_from_cf(url, **kwargs):
 def get_dealer_by_id(url, dealerId):
 
     json_result = get_request(url, dealerId= dealerId)
+    print(json_result)
     if json_result:
         dealer_doc = json_result[0]
         
@@ -82,18 +86,29 @@ def get_dealer_reviews_from_cf(url, dealerId):
 
         for review in reviews:
             review_doc = review
+            sentiment = analyze_review_sentiments(review_doc['review'])
+            print(sentiment)
             review_obj = DealerReviews(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
                                     review=review_doc["review"], purchase_date=review_doc["purchase_date"], 
                                     car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"],
-                                    id=review_doc["id"])
+                                    sentiment = sentiment, id=review_doc["id"])
             results.append(review_obj)
 
     return results
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
-# def analyze_review_sentiments(text):
-# - Call get_request() with specified arguments
-# - Get the returned sentiment label such as Positive or Negative
+def analyze_review_sentiments(text):
+    authenticator = IAMAuthenticator('RNFMuikErrlqY-BKK_RNEvClcPNipKg_rsJ0lWb3ovB8')
+    nlu = NaturalLanguageUnderstandingV1(
+        version='2022-04-07',
+        authenticator=authenticator
+    )
 
+    nlu.set_service_url('https://api.us-east.natural-language-understanding.watson.cloud.ibm.com/instances/ef0db16c-6adb-4d00-b088-a8f0575fa0a3')
 
+    response = nlu.analyze(
+        text = text, 
+        features = Features(sentiment=SentimentOptions())
+        ).get_result()
 
+    return (response)
