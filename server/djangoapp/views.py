@@ -134,8 +134,6 @@ def get_dealer_details(request, dealer_id):
         
         dealership = get_dealer_by_id(dealershipurl, dealer_id)
         reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
-        print(dealership)
-        print(reviews)
 
         dealername = dealership.short_name
         reviewlist = ''.join([review.review for review in reviews])
