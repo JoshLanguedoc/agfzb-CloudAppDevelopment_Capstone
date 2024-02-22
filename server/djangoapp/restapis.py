@@ -16,8 +16,6 @@ def get_request(url, **kwargs):
         print("Network exception occured")
 
     status_code = response.status_code #set statue_code to equal the response status code
-    print("with status: ", status_code) #print response status code
-    print(response.text)
     json_data = json.loads(response.text) #populate json_data with response as a josn
     return json_data #send json data with response
 
@@ -45,9 +43,8 @@ def get_dealers_from_cf(url, **kwargs):
 def get_dealer_by_id(url, dealerId):
 
     json_result = get_request(url, dealerId= dealerId)
-    print(json_result)
     if json_result:
-        dealer_doc = json_result
+        dealer_doc = json_result[0]
         
         dealer = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
