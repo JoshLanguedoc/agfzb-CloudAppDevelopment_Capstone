@@ -87,13 +87,13 @@ def get_dealer_reviews_from_cf(url, dealerId):
         for review in reviews:
             review_doc = review
             sentiment = analyze_review_sentiments(review_doc['review'])
-            if sentiment == "Unable to analyse":
-                sentiment_label = sentiment['sentiment']['document']['label']
+            if sentiment['status_code'] == 200:
+                sentiment_label = sentiment['data']['sentiment']['document']['label']                
 
             review_obj = DealerReviews(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
                                     review=review_doc["review"], purchase_date=review_doc["purchase_date"], 
                                     car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"],
-                                    sentiment = sentiment['sentiment_label']['document']['label'], id=review_doc["id"])
+                                    sentiment = sentiment_label, id=review_doc["id"])
             results.append(review_obj)
 
     return results
@@ -110,12 +110,30 @@ def analyze_review_sentiments(text):
 
     print("Analyzing phrase: ",text)
     try:
-        response = nlu.analyze(
+        analysis = nlu.analyze(
             text = text, 
             features = Features(sentiment=SentimentOptions())
-            ).get_result()
+            )
+        response = {'data': analysis.get_result(), 'status_code': analysis.get_status_code()}
+        
     except ApiException as error:
+        print(error.message)
         if error.message == 'not enough text for language id':
-            response = 'Unable to analyse'
+            try:
+                print('review to short to identify language. Trying with English as specified language.')
+                analysis = nlu.analyze(
+                    text = text, 
+                    features = Features(sentiment=SentimentOptions()),
+                    language = 'en'
+                    )
+                print('English worked')
+                response = {'data': analysis.get_result(), 'status_code': analysis.get_status_code()}
+            except:
+                response = {'data': error.message, 'status_code': error.code}
+        else:
+            response = {'data': error.message, 'status_code': error.code}
+
+    print(response['data'])
+    print(response['status_code'])
 
     return (response)

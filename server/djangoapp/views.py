@@ -135,17 +135,12 @@ def get_dealer_details(request, dealer_id):
         dealership = get_dealer_by_id(dealershipurl, dealer_id)
         reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
 
-        dealername = "reviews for " + dealership.short_name + ": "
-        reviewlist = ''.join(["{review:" + review.review+". Sentiment: " + review.sentiment + ".}" for review in reviews])
+        dealername = "Reviews for " + dealership.short_name + ": "
+        reviewlist = ''.join(["{Review: " + review.review+". Sentiment: " + review.sentiment + ".}" for review in reviews])
 
         dealerdetails = dealername+reviewlist
 
         return HttpResponse(dealerdetails)
-
-def testingNLU(request):
-    text = "This is great"
-    analyze_review_sentiments(text)
-
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
