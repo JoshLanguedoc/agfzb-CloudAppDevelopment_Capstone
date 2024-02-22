@@ -88,12 +88,16 @@ def get_dealer_reviews_from_cf(url, dealerId):
             review_doc = review
             sentiment = analyze_review_sentiments(review_doc['review'])
             if sentiment['status_code'] == 200:
-                sentiment_label = sentiment['data']['sentiment']['document']['label']                
+                sentiment_label = sentiment['data']['sentiment']['document']['label']
 
-            review_obj = DealerReviews(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
-                                    review=review_doc["review"], purchase_date=review_doc["purchase_date"], 
-                                    car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"],
-                                    sentiment = sentiment_label, id=review_doc["id"])
+            if review_doc['purchase'] == True:
+                review_obj = DealerReviews(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
+                                        review=review_doc["review"], purchase_date=review_doc["purchase_date"], 
+                                        car_make=review_doc["car_make"], car_model=review_doc["car_model"], car_year=review_doc["car_year"],
+                                        sentiment = sentiment_label, id=review_doc["id"])
+            else:
+                review_obj = DealerReviews(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"], 
+                                    review=review_doc["review"], sentiment = sentiment_label, id=review_doc["id"])
             results.append(review_obj)
 
     return results
