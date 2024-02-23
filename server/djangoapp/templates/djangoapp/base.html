@@ -65,6 +65,9 @@
                 {% block contact %}
                     <a class="nav-item nav-link" href="{% url 'djangoapp:contact' %}">Contact us</a>
                 {% endblock %}
+                {% block dealerships %}
+                    <a class="nav-item nav-link" href="{% url 'djangoapp:index' %}">Dealership List</a>
+                {% endblock %}
             </div>
             {% if user.is_authenticated %}
             <div class="form-inline ml-auto">
