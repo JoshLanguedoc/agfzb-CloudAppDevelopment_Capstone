@@ -104,26 +104,19 @@ def get_dealerships(request):
         if dealerId:
             print("get by ID")
             dealerships = get_dealer_by_id(url, dealerId)
-
-            dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
-
-            return HttpResponse(dealer_names)
+            context.update({"dealerships": dealerships})
         
         elif state:
             print("get by State")
             dealerships = get_dealers_by_state(url, state)
-
-            dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
-
-            return HttpResponse(dealer_names)
+            context.update({"dealerships": dealerships})
 
         else:
             print("get all")
             dealerships = get_dealers_from_cf(url)
-
-            dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
-
-            return HttpResponse(dealer_names)
+            context.update({"dealerships": dealerships})
+            
+    return render(request, 'djangoapp/index.html', context)
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
