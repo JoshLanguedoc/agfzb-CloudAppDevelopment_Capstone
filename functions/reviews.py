@@ -1,6 +1,6 @@
 from cloudant.client import Cloudant
 from cloudant.query import Query
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 import atexit
 
 cloudant_username= '78bfea69-47f6-42c2-ab2a-fec36de36077-bluemix' 
@@ -50,9 +50,9 @@ def post_review():
     if not request.json: #if request.json is not valid json data...
         abort(400, description='Invalid JSON data') #abort operation and return error with invalid data message
 
-    review_data = request.json #populate review_data to equal request data.
-
-    required_fields = ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year', ] #create required_fields list
+    print(request.json)
+    review_data = request.json['review'] #populate review_data to equal request data.
+    required_fields = ['time', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year', ] #create required_fields list
 
     for field in required_fields: #iterate through required_fields
         if field not in review_data: #if field is not in review_data...

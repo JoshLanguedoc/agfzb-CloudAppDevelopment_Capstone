@@ -19,7 +19,7 @@ def get_request(url, **kwargs):
         print("Network exception occured")
 
     status_code = response.status_code #set statue_code to equal the response status code
-    print("Response with status: " + status_code)
+    print("Response with status: " + str(status_code))
 
     json_data = json.loads(response.text) #populate json_data with response as a josn
     return json_data #send json data with response
@@ -37,7 +37,10 @@ def post_request(url, json_payload, **kwargs):
         print("Network exception occured")
 
     status_code = response.status_code
-    print("Response with status: " + status_code)
+    print("Response with status: " + str(status_code))
+    if status_code != 200:
+        return response.text
+
 
     json_data = json.loads(response.text)
     return json_data

@@ -3,7 +3,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from . import restapis
+from .restapis import get_dealers_from_cf, get_dealer_by_id, \
+                    get_dealers_by_state, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -143,55 +144,57 @@ def get_dealer_details(request, dealer_id):
         return HttpResponse(dealerdetails)
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
-    
-    if request.method == "POST":
-        if user.is_authenticated:
-            url = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
-            time = datetime.utcnow().isoformat()
-            name = user.username
-            dealership = dealer_id
-            review = request.POST['review']
-            purchase = request.POST['purchase']
-            
-            if purchase == True:
-                purchase_date = request.POST['purcahase_data']
-                car_make = request.POST['car_make']
-                car_model = request.POST['car_model']
-                car_year = request.POST['car_year']
-                review = {
-                    'name': name,
-                    'time': datetime.utcnow().isoformat(),
-                    'dealership': dealership,
-                    'review': review,
-                    'purchase': purchase,
-                    'purchase_date': purchase_date,
-                    'car_make': car_make,
-                    'car_model': car_model,
-                    'car_year': car_year
-                }
-            else:
-                review = {
-                    'name': name,
-                    'time': datetime.utcnow().isoformat(),
-                    'dealership': dealership,
-                    'review': review,
-                    'purchase': purchase
-                    'purchase_date': "",
-                    'car_make':"",
-                    'car_model': "",
-                    'car_year': ""
-                }
-            
-            json_payload = {'review': review}
+    user = request.user
 
-            response = post_request(url, json_payload)
-            return HttpResponse(response)
+    #if request.method == "POST":
+    if user.is_authenticated:
+        url = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+        time = datetime.utcnow().isoformat()
+        name = user.username
+        dealership = dealer_id
+        #review = request.POST['review']
+        review = "This is a great car dealer"
+        #purchase = request.POST['purchase']
+        purchase = False
         
+        if purchase == True:
+            purchase_date = request.POST['purcahase_data']
+            car_make = request.POST['car_make']
+            car_model = request.POST['car_model']
+            car_year = request.POST['car_year']
+            review = {
+                'name': name,
+                'time': datetime.utcnow().isoformat(),
+                'dealership': dealership,
+                'review': review,
+                'purchase': purchase,
+                'purchase_date': purchase_date,
+                'car_make': car_make,
+                'car_model': car_model,
+                'car_year': car_year
+            }
         else:
-            error_response = HttpResponse()
-            error_response.status_code = 401
-            error_response.reason_phrase = "Please log in to submit a review."
-            
-            return error_response
+            review = {
+                'name': name,
+                'time': datetime.utcnow().isoformat(),
+                'dealership': dealership,
+                'review': review,
+                'purchase': purchase,
+                'purchase_date': "",
+                'car_make':"",
+                'car_model': "",
+                'car_year': ""
+            }
+        
+        json_payload = {'review': review}
+        response = post_request(url, json_payload)
+        return HttpResponse(response)
+    
+    else:
+        error_response = HttpResponse()
+        error_response.status_code = 401
+        error_response.reason_phrase = "Please log in to submit a review."
+        
+        return error_response
             
         
