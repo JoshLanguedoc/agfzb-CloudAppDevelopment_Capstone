@@ -72,6 +72,8 @@
             {% if user.is_authenticated %}
             <div class="form-inline ml-auto">
 	            <span class="navbar-text">{{ user.first_name }}</a>
+                {% block addreview %}
+                {% endblock %}
 	            <a href="{% url 'djangoapp:logout' %}" class="btn btn-outline-light ml-1">Log out</a>
             </div>
             {% else %}

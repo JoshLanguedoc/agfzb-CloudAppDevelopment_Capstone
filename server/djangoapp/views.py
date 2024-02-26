@@ -129,12 +129,34 @@ def get_dealer_details(request, dealer_id):
         dealership = get_dealer_by_id(dealershipurl, dealer_id)
         reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
 
+        average_sentiment = "No reviews yet"
+        if len(reviews) > 0:
+            average_sentiment = 0
+
+            for review in reviews:
+                if review.sentiment == 'positive':
+                    average_sentiment = average_sentiment + 1
+                elif review.sentiment == 'negative':
+                    average_sentiment = average_sentiment - 1
+
+            
+            average_sentiment = average_sentiment / len(reviews)
+            if  -1 <= average_sentiment < -0.25:
+                average_sentiment = 'negative'
+            elif -0.25 <= average_sentiment <= 0.25:
+                average_sentiment = 'neutral'
+            elif 0.25 < average_sentiment <= 1:
+                average_sentiment = 'positive'
+            else:
+                average_sentiment = 'something went wrong'
+
         dealername = "Reviews for " + dealership.short_name + ": "
         reviewlist = ''.join(["{Review: " + review.review+". Sentiment: " + review.sentiment + ".}" for review in reviews])
 
-        dealerdetails = dealername+reviewlist
+        context.update({'dealername': dealername, 'dealer_id': dealership.id,'average_sentiment': average_sentiment, 'number_of_reviews': len(reviews), 'reviews': reviews})
 
-        return HttpResponse(dealerdetails)
+        return render(request, 'djangoapp/dealer_details.html', context)
+
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
     user = request.user
