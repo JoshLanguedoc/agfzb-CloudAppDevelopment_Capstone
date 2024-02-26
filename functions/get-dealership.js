@@ -48,7 +48,7 @@ app.get('/dealerships/get', (req, res) =>{ //define route to get all dealerships
 
     const queryOptions = { //create a query options dictionary
         selector, //include selectors
-        limit: 10, //limit to 10 documents returned
+        //limit: 10, //limit to 10 documents returned
     };
 
     db.find(queryOptions, (err, body) =>{ //query database with query options and ...

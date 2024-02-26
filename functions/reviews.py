@@ -11,7 +11,14 @@ client = Cloudant.iam(cloudant_username, cloudant_api_key, connect=True, url=clo
 session = client.session()
 print('Databases:', client.all_dbs())
 
+
+
 db = client['reviews']
+
+selector={'dealership':'*'}
+reviews = db.metadata()
+print("Number of docs: ",reviews['doc_count'])
+review_id = reviews['doc_count'] + 1
 
 app = Flask(__name__)
 
@@ -52,14 +59,15 @@ def post_review():
 
     print(request.json)
     review_data = request.json['review'] #populate review_data to equal request data.
-    required_fields = ['time', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year', ] #create required_fields list
+    required_fields = ['time', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year'] #create required_fields list
 
     for field in required_fields: #iterate through required_fields
         if field not in review_data: #if field is not in review_data...
             abort(400, description=f'Missing required field: {field}') #abort operation and return error with missing field message
 
+    review_data.update({'id': review_id})
     db.create_document(review_data) #add document to reviews database using review_data to populate
-    
+    review_id = review_id + 1
     return jsonify({"message": "Review posted successfully"}), 201 #return success message
 
 if __name__ == "__main__":
