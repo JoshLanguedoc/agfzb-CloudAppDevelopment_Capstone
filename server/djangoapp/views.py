@@ -91,7 +91,7 @@ def get_dealerships(request):
     
     context = {}
     if request.method == "GET":
-        url = "https://joshlanguedo-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        url = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         try:
             dealerId = request.GET['dealerId']
         except:
@@ -123,8 +123,8 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
-        dealershipurl = "https://joshlanguedo-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
-        reviewsurl = "https://joshlanguedo-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
+        dealershipurl = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        reviewsurl = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
         
         dealership = get_dealer_by_id(dealershipurl, dealer_id)
         reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
@@ -150,7 +150,7 @@ def get_dealer_details(request, dealer_id):
             else:
                 average_sentiment = 'something went wrong'
 
-        dealername = "Reviews for " + dealership.short_name + ": "
+        dealername = dealership.full_name
         reviewlist = ''.join(["{Review: " + review.review+". Sentiment: " + review.sentiment + ".}" for review in reviews])
 
         context.update({'dealername': dealername, 'dealer_id': dealership.id,'average_sentiment': average_sentiment, 'number_of_reviews': len(reviews), 'reviews': reviews})

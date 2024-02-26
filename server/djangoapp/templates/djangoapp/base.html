@@ -11,45 +11,47 @@
     <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <style>
+        :root{
+            --mainClr:#5A2487;
+            --accClr1:#5F2F86;
+            --accClr2:#633B85;
+            --accClr3:#684684;
+            --accClr4:#6D5283;
+            --accClr5:#715D82;
+            --accClr6:#766981;
+            --accClr7:#7B7480;
 
+        }
+        .h{
+            font-family: Helvetica;
+        }
+        .header-background{
+            border-radius: 16px; 
+            background: rgba(214,200,225,0.75);
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 300,
+                'GRAD' 0,
+                'opsz' 24
+        }
+
+        h4{
+            color: var(--accClr4)
+        }
+        h3{
+            color: var(--accClr1)
+        }
+        input{
+            max-width: 300px
+        }
+        {% block additionalstyles %}
+        {% endblock %}
+    </style>
 </head>
-<style>
-    :root{
-        --mainClr:#5A2487;
-        --accClr1:#5F2F86;
-        --accClr2:#633B85;
-        --accClr3:#684684;
-        --accClr4:#6D5283;
-        --accClr5:#715D82;
-        --accClr6:#766981;
-        --accClr7:#7B7480;
 
-    }
-    .h{
-        font-family: Helvetica;
-    }
-    .header-background{
-        border-radius: 16px; 
-        background: rgba(214,200,225,0.75);
-    }
-    .material-symbols-outlined {
-        font-variation-settings:
-            'FILL' 0,
-            'wght' 300,
-            'GRAD' 0,
-            'opsz' 24
-    }
-
-    h4{
-        color: var(--accClr4)
-    }
-    h3{
-        color: var(--accClr1)
-    }
-    input{
-        max-width: 300px
-    }
-</style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--mainClr)">
