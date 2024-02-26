@@ -22,6 +22,7 @@ def get_request(url, **kwargs):
     print("Response with status: " + str(status_code))
 
     json_data = json.loads(response.text) #populate json_data with response as a josn
+    print(type(json_data))
     return json_data #send json data with response
 
 # Create a `post_request` to make HTTP POST requests
@@ -48,17 +49,21 @@ def post_request(url, json_payload, **kwargs):
 
 def get_dealers_from_cf(url, **kwargs):
     results = []
+    reviewsurl = "https://joshlanguedo-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
 
     json_result = get_request(url)
     if json_result:
         dealers = json_result
-
+ 
         for dealer in dealers:
             dealer_doc = dealer
+            
             dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
-                                   short_name=dealer_doc["short_name"],
-                                   st=dealer_doc["st"], zip=dealer_doc["zip"])
+                                   short_name=dealer_doc["short_name"], st=dealer_doc["st"], zip=dealer_doc["zip"])
+
+            
+                    
             results.append(dealer_obj)
 
     return results
@@ -86,7 +91,6 @@ def get_dealers_by_state(url, state):
 
         for dealer in dealers:
             dealer_doc = dealer
-            #print("Dealer", dealer_doc)
             dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
                                    short_name=dealer_doc["short_name"],
@@ -120,7 +124,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
                                     review=review_doc["review"], sentiment = sentiment_label, id=review_doc["id"])
             results.append(review_obj)
 
-    return results
+    return results    
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 def analyze_review_sentiments(text):
