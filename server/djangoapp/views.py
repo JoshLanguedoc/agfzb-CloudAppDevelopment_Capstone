@@ -142,11 +142,11 @@ def get_dealer_details(request, dealer_id):
             
             average_sentiment = average_sentiment / len(reviews)
             if  -1 <= average_sentiment < -0.25:
-                average_sentiment = 'negative'
+                average_sentiment = 'Negative'
             elif -0.25 <= average_sentiment <= 0.25:
-                average_sentiment = 'neutral'
+                average_sentiment = 'Neutral'
             elif 0.25 < average_sentiment <= 1:
-                average_sentiment = 'positive'
+                average_sentiment = 'Positive'
             else:
                 average_sentiment = 'something went wrong'
 
