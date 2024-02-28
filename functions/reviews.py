@@ -66,6 +66,11 @@ def post_review():
         if field not in review_data: #if field is not in review_data...
             abort(400, description=f'Missing required field: {field}') #abort operation and return error with missing field message
 
+    reviews = db.metadata()
+    print("Number of docs: ",reviews['doc_count'])
+    review_id = reviews['doc_count'] + 1
+    print("Starting new revies ids at: ",review_id)
+
     review_data.update({'id': review_id})
     db.create_document(review_data) #add document to reviews database using review_data to populate
     review_id = review_id + 1

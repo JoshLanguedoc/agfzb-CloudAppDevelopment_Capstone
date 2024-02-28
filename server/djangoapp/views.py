@@ -180,20 +180,21 @@ def add_review(request, dealer_id):
             return render(request, "djangoapp/add_review.html", context)
 
         if request.method == "POST":
+            print(request.POST)
             url = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
             time = datetime.utcnow().isoformat()
             name = user.username
             dealership = dealer_id
-            #review = request.POST['review']
-            review = "This is a great car dealer"
-            #purchase = request.POST['purchase']
-            purchase = False
-            
-            if purchase == True:
-                purchase_date = request.POST['purcahase_data']
-                car_make = request.POST['car_make']
-                car_model = request.POST['car_model']
-                car_year = request.POST['car_year']
+            review = request.POST['content']
+
+            if request.POST['purchasecheck'] == 'on':
+                purchase = True
+                car = CarModel.objects.filter(id = request.POST['car']).values()
+                print(car)
+                purchase_date = int(request.POST['purchase_date'].strftime("%Y"))
+                car_model = car[0]['name']
+                car_year = car[0]['year']
+                car_make = car[0]['make_id']
                 review = {
                     'name': name,
                     'time': datetime.utcnow().isoformat(),
@@ -206,6 +207,7 @@ def add_review(request, dealer_id):
                     'car_year': car_year
                 }
             else:
+                purchase = False
                 review = {
                     'name': name,
                     'time': datetime.utcnow().isoformat(),
@@ -220,7 +222,7 @@ def add_review(request, dealer_id):
             
             json_payload = {'review': review}
             response = post_request(url, json_payload)
-            return HttpResponse(response)
+            return redirect('djangoapp:dealer', dealer_id=dealer_id)
     
     else:
         error_response = HttpResponse()
