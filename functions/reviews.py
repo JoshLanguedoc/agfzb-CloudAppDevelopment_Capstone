@@ -19,6 +19,7 @@ selector={'dealership':'*'}
 reviews = db.metadata()
 print("Number of docs: ",reviews['doc_count'])
 review_id = reviews['doc_count'] + 1
+print("Starting new revies ids at: ",review_id)
 
 app = Flask(__name__)
 

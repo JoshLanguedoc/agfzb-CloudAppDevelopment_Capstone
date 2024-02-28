@@ -24,7 +24,7 @@
                         <label for="car">Which Vehicle did you purchase?:</label>
                         <select name = "car" id="car" class = "form-select">
                             {% for car in cars %}
-                                <option selected value={{car.id}}>{{car.name}}-{{car.make}}-{{car.year|date:"Y"}}</option>
+                                <option selected value={{car.id}}>{{car.name}}-{{car.make}}-{{car.year}}</option>
                             {% endfor %}
                         </select>
                     </div>

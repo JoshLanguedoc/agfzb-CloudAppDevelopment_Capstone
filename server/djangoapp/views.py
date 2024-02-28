@@ -8,6 +8,7 @@ from .restapis import get_dealers_from_cf, get_dealer_by_id, \
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
+from .models import CarModel, CarMake
 import logging
 import json
 
@@ -164,51 +165,62 @@ def get_dealer_details(request, dealer_id):
 
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
+    context = {}
     user = request.user
-
-    #if request.method == "POST":
     if user.is_authenticated:
-        url = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
-        time = datetime.utcnow().isoformat()
-        name = user.username
-        dealership = dealer_id
-        #review = request.POST['review']
-        review = "This is a great car dealer"
-        #purchase = request.POST['purchase']
-        purchase = False
-        
-        if purchase == True:
-            purchase_date = request.POST['purcahase_data']
-            car_make = request.POST['car_make']
-            car_model = request.POST['car_model']
-            car_year = request.POST['car_year']
-            review = {
-                'name': name,
-                'time': datetime.utcnow().isoformat(),
-                'dealership': dealership,
-                'review': review,
-                'purchase': purchase,
-                'purchase_date': purchase_date,
-                'car_make': car_make,
-                'car_model': car_model,
-                'car_year': car_year
-            }
-        else:
-            review = {
-                'name': name,
-                'time': datetime.utcnow().isoformat(),
-                'dealership': dealership,
-                'review': review,
-                'purchase': purchase,
-                'purchase_date': "",
-                'car_make':"",
-                'car_model': "",
-                'car_year': ""
-            }
-        
-        json_payload = {'review': review}
-        response = post_request(url, json_payload)
-        return HttpResponse(response)
+
+        if request.method == "GET":
+            cars = CarModel.objects.filter(dealerid = dealer_id).values()
+            for car in cars:
+                make_name = CarMake.objects.filter(id=car['make_id']).values_list('name')
+                print("Make name is: ", make_name[0][0])
+                car.update({'make': make_name[0][0]})
+            print(cars)
+            context.update({'cars': cars, "dealer_id":dealer_id})
+            return render(request, "djangoapp/add_review.html", context)
+
+        if request.method == "POST":
+            url = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+            time = datetime.utcnow().isoformat()
+            name = user.username
+            dealership = dealer_id
+            #review = request.POST['review']
+            review = "This is a great car dealer"
+            #purchase = request.POST['purchase']
+            purchase = False
+            
+            if purchase == True:
+                purchase_date = request.POST['purcahase_data']
+                car_make = request.POST['car_make']
+                car_model = request.POST['car_model']
+                car_year = request.POST['car_year']
+                review = {
+                    'name': name,
+                    'time': datetime.utcnow().isoformat(),
+                    'dealership': dealership,
+                    'review': review,
+                    'purchase': purchase,
+                    'purchase_date': purchase_date,
+                    'car_make': car_make,
+                    'car_model': car_model,
+                    'car_year': car_year
+                }
+            else:
+                review = {
+                    'name': name,
+                    'time': datetime.utcnow().isoformat(),
+                    'dealership': dealership,
+                    'review': review,
+                    'purchase': purchase,
+                    'purchase_date': "",
+                    'car_make':"",
+                    'car_model': "",
+                    'car_year': ""
+                }
+            
+            json_payload = {'review': review}
+            response = post_request(url, json_payload)
+            return HttpResponse(response)
     
     else:
         error_response = HttpResponse()
