@@ -9,30 +9,49 @@
     </div>
     <div class="d-flex justify-content-center p-3">
         <div class="border border-dark p-3 shadow-lg" style="border-radius: 16px;">
-            <h1 class='h' style="font-weight:bold;">Review for ...:</h1>
-            <form action="{% url 'djangoapp:registration' %}" method="POST">
-                <div class="form-row">
-                    <label for="username">Tell us about your experience:</label>
+            <h1 class='h' style="font-weight:bold;">Review for {{dealer_name}}:</h1>
+            <form action="{% url 'djangoapp:add_review' dealer_id %}" method="POST">
+                <div class="form-row p-1 pb-2">
+                    <label for="content">Tell us about your experience:</label>
                     <textarea class = "form-control" id="content" name="content" rows="2" required></textarea>
                 </div>
-                <div class="form-row">
-                    <label for="email">Did you make a purchase?:</label>
-                        <input type="checkbox" class="form-check-input" name="purchasecheck" id="purchasecheck">
+                <div class="form-row p-1 pl-4  border border-left-0 border-right-0 border-bottom-0">
+                    <label for="purchasecheck">Did you make a purchase?</label>
+                    <input class="form-check-input" type="checkbox"  name="purchasecheck" id="purchasecheck" data-toggle='collapse' data-target='#purchasedetails' oninput='purchaseCheck()'>
                 </div>
-                <div class="form-row border p-1 border-left-0 border-right-0">
-                    <label for="first_name">Which Vehicle did you purchase?:</label>
-                    <select name = "car" id="car" class = "form-select" required>
-                        {% for car in cars %}
-                            <option selected value={{car.id}}>{{car.name}}-{{car.nake}}-{{car.year|date:"Y"}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group pt-3">
-                    <label for="psw">What was the purchase date?:</label>
-                    <input type="date" name="purchasedate" id="purchasedate" required>
+                <div class='collapse' name = 'purchasedetails' id='purchasedetails'>
+                    <div class="form-row p-1">
+                        <label for="car">Which Vehicle did you purchase?:</label>
+                        <select name = "car" id="car" class = "form-select">
+                            {% for car in cars %}
+                                <option selected value={{car.id}}>{{car.name}}-{{car.make}}-{{car.year|date:"Y"}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group pt-3">
+                        <label for="date">What was the purchase date?:</label>
+                        <input type="date" name="purchasedate" id="purchasedate">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary" id="submitButton" disabled = true>Submit review</button>
             </form>
         </div>
     </div>
+    <script>
+        function purcaseCheck(){
+            /* check if purchasecheck checkbox is ticked and ...
+                If yes: make car and purchasedate required
+                If No: make car and purchasedate not required
+            */
+            if(document.getElementById('purchasecheck').value == true){ //if purchasecheck is true...
+                document.getElementById('car').required = true; //make car required
+                document.getElementById('purchasedate').required = true; // make purchasedate required
+            } else{ //if purcahse date is not true...
+                document.getElementById('car').required = false; //make car not required
+                document.getElementById('purchasedate').required = false; //make purcahsedate not required
+
+            }
+
+
+        }
 {% endblock %}

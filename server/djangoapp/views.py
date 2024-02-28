@@ -41,10 +41,15 @@ def login_request(request):
         password = request.POST['psw'] #get password from request
 
         user = authenticate(username=username, password=password) #Check if credentials are valid
-        
+        returnpage = request.headers['Referer'].replace('https://joshlanguedo-8000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/','')
+        returnparts = returnpage.split("/")
+
         if user is not None: #if credentials are valid...
             login(request, user) #login user with login method
-            return redirect('djangoapp:about') #redirect user to about page
+            if len(returnparts) > 1:
+                return redirect('djangoapp:'+returnparts[0], returnparts[1]) #redirect user to the page they came from
+            else:
+                return redirect('djangoapp:'+returnparts[0])
         else: #if credentials are not valid...
             return redirect('djangoapp:about') #redirect user to login page
     else: #if request method is not POST...
