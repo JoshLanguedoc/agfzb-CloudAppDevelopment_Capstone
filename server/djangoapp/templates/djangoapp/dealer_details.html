@@ -50,7 +50,7 @@
                         <p class="card-text">{{review.review}}</p>
                     {% if review.purchase %}
                     <div class="card_body">
-                        <h5 class="card-title">{{review.car_year}}, {{review.car_make}}, {{review.car_model}}</h5>
+                        <h5 class="card-title" style='color: var(--accClr3);'>{{review.car_year}}, {{review.car_make}}, {{review.car_model}}</h5>
                     </div>
                     {% else %}
                     <div class="card_body">
@@ -62,7 +62,7 @@
             </div>
         {% else %}
             <h1 class="display-4"> There have been no reviews posted yet for {{dealername}}.</h>
-            <div class="m-4" style="text-align: center;"><h5><button type="button" class="button" href="{% url 'djangoapp:add_review' dealer_id %}">Be the first to post a review!</button></h5></div>
+            <form action="{% url 'djangoapp:add_review' dealer_id %}" class="m-4" style="text-align: center;"><h5><button type="submit" class="button" href="{% url 'djangoapp:add_review' dealer_id %}">Be the first to post a review!</button></h5></form>
         {% endif %}
     </div>
 {% endblock %}
