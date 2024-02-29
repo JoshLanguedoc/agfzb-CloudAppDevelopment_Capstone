@@ -42,8 +42,9 @@ def login_request(request):
         password = request.POST['psw'] #get password from request
 
         user = authenticate(username=username, password=password) #Check if credentials are valid
-        returnpage = request.headers['Referer'].replace('https://joshlanguedo-8000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/','')
+        returnpage = request.headers['Referer'].replace('https://joshlanguedo-8000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/','')
         returnparts = returnpage.split("/")
+        print("returnpage: ",returnpage)
 
         if user is not None: #if credentials are valid...
             login(request, user) #login user with login method
@@ -97,7 +98,7 @@ def get_dealerships(request):
     
     context = {}
     if request.method == "GET":
-        url = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        url = "https://joshlanguedo-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         try:
             dealerId = request.GET['dealerId']
         except:
@@ -129,8 +130,8 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
-        dealershipurl = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
-        reviewsurl = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
+        dealershipurl = "https://joshlanguedo-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        reviewsurl = "https://joshlanguedo-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
         
         dealership = get_dealer_by_id(dealershipurl, dealer_id)
         reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
@@ -181,7 +182,7 @@ def add_review(request, dealer_id):
 
         if request.method == "POST":
             print(request.POST)
-            url = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+            url = "https://joshlanguedo-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
             time = datetime.utcnow().isoformat()
             name = user.username
             dealership = dealer_id
