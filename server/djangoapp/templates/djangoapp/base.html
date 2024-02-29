@@ -55,7 +55,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--mainClr)">
-        <a class="navbar-brand" href="#">Best Cars</a>
+        <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="#navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -65,10 +65,10 @@
                     <a class="nav-item nav-link" href="{% url 'djangoapp:index' %}">Dealership List</a>
                 {% endblock %}
                 {% block home %}
-                    <a class="nav-item nav-link" href="{% url 'djangoapp:about' %}">About us</a>
+                    <a class="nav-item nav-link" href="{% url 'djangoapp:about' %}">About Us</a>
                 {% endblock %}
                 {% block contact %}
-                    <a class="nav-item nav-link" href="{% url 'djangoapp:contact' %}">Contact us</a>
+                    <a class="nav-item nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
                 {% endblock %}
                 
             </div>
