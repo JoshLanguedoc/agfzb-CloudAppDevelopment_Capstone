@@ -42,7 +42,7 @@ def login_request(request):
         password = request.POST['psw'] #get password from request
 
         user = authenticate(username=username, password=password) #Check if credentials are valid
-        returnpage = request.headers['Referer'].replace('https://joshlanguedo-8000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/','')
+        returnpage = request.headers['Referer'].replace('https://joshlanguedo-8000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/','')
         returnparts = returnpage.split("/")
         print("returnpage: ",returnpage)
 
@@ -98,7 +98,7 @@ def get_dealerships(request):
     
     context = {}
     if request.method == "GET":
-        url = "https://joshlanguedo-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        url = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         try:
             dealerId = request.GET['dealerId']
         except:
@@ -130,8 +130,8 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
-        dealershipurl = "https://joshlanguedo-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
-        reviewsurl = "https://joshlanguedo-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
+        dealershipurl = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        reviewsurl = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
         
         dealership = get_dealer_by_id(dealershipurl, dealer_id)
         reviews = get_dealer_reviews_from_cf(reviewsurl, dealer_id)
@@ -167,22 +167,27 @@ def get_dealer_details(request, dealer_id):
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
     context = {}
+    dealershipurl = "https://joshlanguedo-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
     user = request.user
+
     if user.is_authenticated:
 
         if request.method == "GET":
+            dealership = get_dealer_by_id(dealershipurl, dealer_id)
+            dealername = dealership.short_name
+            print('Dealer Name is: ', dealername)
             cars = CarModel.objects.filter(dealerid = dealer_id).values()
             for car in cars:
                 make_name = CarMake.objects.filter(id=car['make_id']).values_list('name')
                 print("Make name is: ", make_name[0][0])
                 car.update({'make': make_name[0][0]})
             print(cars)
-            context.update({'cars': cars, "dealer_id":dealer_id})
+            context.update({'cars': cars, "dealer_id":dealer_id, 'dealername':dealername})
             return render(request, "djangoapp/add_review.html", context)
 
         if request.method == "POST":
             print(request.POST)
-            url = "https://joshlanguedo-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+            url = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
             time = datetime.utcnow().isoformat()
             name = user.username
             dealership = dealer_id
