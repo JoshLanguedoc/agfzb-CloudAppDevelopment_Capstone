@@ -232,10 +232,8 @@ def add_review(request, dealer_id):
             return redirect('djangoapp:dealer', dealer_id=dealer_id)
     
     else:
-        error_response = HttpResponse()
-        error_response.status_code = 401
-        error_response.reason_phrase = "Please log in to submit a review."
+        error = {'status_code':401, 'message': "Please log in or Sign up to submit a review."}
         
-        return error_response
+        return redirect('djangoapp:registration')
             
         
