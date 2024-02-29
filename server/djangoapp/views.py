@@ -187,15 +187,14 @@ def add_review(request, dealer_id):
             dealership = dealer_id
             review = request.POST['content']
 
-            if request.POST['purchasecheck'] == 'on':
+            if request.POST['purchasecheck'] == 'true':
                 purchase = True
                 car = CarModel.objects.filter(id = request.POST['car']).values()
                 make_name = CarMake.objects.filter(id=car[0]['make_id']).values_list('name')
-                print(car)
                 purchase_date = int(request.POST['purchasedate'][:4])
                 car_model = car[0]['name']
                 car_year = car[0]['year']
-                car_make = make_name
+                car_make = make_name[0][0]
                 review = {
                     'name': name,
                     'time': datetime.utcnow().isoformat(),

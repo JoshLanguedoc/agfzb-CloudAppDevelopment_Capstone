@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-row p-1 pl-4  border border-left-0 border-right-0 border-bottom-0">
                     <label for="purchasecheck">Did you make a purchase?</label>
-                    <input class="form-check-input" type="checkbox"  name="purchasecheck" id="purchasecheck" data-toggle='collapse' data-target='#purchasedetails' onclick='purchaseCheck()' >
+                    <input class="form-check-input" type="checkbox" value="false" name="purchasecheck" id="purchasecheck" data-toggle='collapse' data-target='#purchasedetails' onclick='purchaseCheck()' >
                 </div>
                 <div class='collapse' name = 'purchasedetails' id='purchasedetails'>
                     <div class="form-row p-1">
@@ -48,10 +48,12 @@
                 console.log("purchasecheck is true")
                 document.getElementById('car').required = true; //make car required
                 document.getElementById('purchasedate').required = true; // make purchasedate required
+                document.getElementById('purchasecheck').value = true;
             } else{ //if purcahse date is not true...
                 console.log("purchasecheck is false")
                 document.getElementById('car').required = false; //make car not required
                 document.getElementById('purchasedate').required = false; //make purcahsedate not required
+                document.getElementById('purchasecheck').value = false;
 
             }
 
