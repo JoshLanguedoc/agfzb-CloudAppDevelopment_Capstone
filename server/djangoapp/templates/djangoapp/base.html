@@ -61,15 +61,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <div class="navbar-nav">
+                {% block dealerships %}
+                    <a class="nav-item nav-link" href="{% url 'djangoapp:index' %}">Dealership List</a>
+                {% endblock %}
                 {% block home %}
-                    <a class="nav-item nav-link" href="{% url 'djangoapp:about' %}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'djangoapp:about' %}">About us</a>
                 {% endblock %}
                 {% block contact %}
                     <a class="nav-item nav-link" href="{% url 'djangoapp:contact' %}">Contact us</a>
                 {% endblock %}
-                {% block dealerships %}
-                    <a class="nav-item nav-link" href="{% url 'djangoapp:index' %}">Dealership List</a>
-                {% endblock %}
+                
             </div>
             {% if user.is_authenticated %}
             <div class="form-inline ml-auto">

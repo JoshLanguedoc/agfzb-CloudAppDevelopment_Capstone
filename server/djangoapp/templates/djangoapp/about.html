@@ -1,7 +1,7 @@
 {% extends "djangoapp/base.html" %}
 {% load static %}
 {% block title %}about{% endblock %}
-{% block home %}<a class="nav-item nav-link active" href="#">Home</a>{% endblock %}
+{% block home %}<a class="nav-item nav-link active" href="#">About us</a>{% endblock %}
 {% block content %}
     <div class="d-flex flex-wrap p-5 justify-content-sm-center justify-content-lg-start" style="background-image: url({% static 'images/Dealership_Ariel.jpeg' %}); background-repeat: no-repeat; background-size: cover; height: 500px; background-position: center center; aspect-ratio 16 / 9;"> 
             <div class="ml-5 shadow p-3 align-self-start header-background">
@@ -15,4 +15,47 @@
                 </h3>
             </div>
     </div>
+    <div class="card-columns p-2">
+        <div class="card">
+            <div class="card-header">
+                <a href="{% url 'djangoapp:index' %}"><h3>Dealership List</h3></a>
+            </div>
+            <div class="card-body">
+                <ul>    
+                    <li>View all the Dealerships in our data base.</li>
+                    <li>Select Dealerships to see reviews posted by our users</li>
+                    <li>Register and post your own reviews</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <a href="{% url 'djangoapp:about' %}"><h3>About us</h3></a>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Learn about us</li>
+                    <li>Get information on the different pages of our website</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <a href="{% url 'djangoapp:contact' %}"><h3>Contact us</h3></a>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Find contact information for our:
+                        <ul>
+                            <li>Headquarters in Wyoming</li>
+                            <li>West Coast branch in Washington</li>
+                            <li>East Coast branch in Rhode Island</li>
+                            <li>Southern branch in Texas</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
