@@ -54,7 +54,8 @@ def get_reviews():
 def post_review():
     #Checks if request has valid json data. Ensures request contains all required information. 
     #Creates a new document in the reviews database to hold review the new review.
-    
+    print("POST request recieved")
+
     if not request.json: #if request.json is not valid json data...
         abort(400, description='Invalid JSON data') #abort operation and return error with invalid data message
 

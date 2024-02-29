@@ -30,7 +30,7 @@ def post_request(url, json_payload, **kwargs):
 
     print("kwargs: " + str(kwargs))
     print("Payload: " + str(json_payload))
-    print("Get from: " + url)
+    print("Post to: " + url)
 
     try:
         response = requests.post(url, params= kwargs, json= json_payload)
