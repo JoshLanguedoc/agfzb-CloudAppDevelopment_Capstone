@@ -45,6 +45,8 @@ def login_request(request):
         returnpage = request.headers['Referer'].replace('https://joshlanguedo-8000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/','')
         returnparts = returnpage.split("/")
         print("returnpage: ",returnpage)
+        if returnparts[0] == "":
+            returnparts[0] = "index"
 
         if user is not None: #if credentials are valid...
             login(request, user) #login user with login method
@@ -53,7 +55,12 @@ def login_request(request):
             else:
                 return redirect('djangoapp:'+returnparts[0])
         else: #if credentials are not valid...
-            return redirect('djangoapp:about') #redirect user to login page
+            #request.session['error_message'] = 'Incorrect username or password'
+            messages.add_message(request, messages.ERROR, 'Incorrect username or password')
+            if len(returnparts) > 1:
+                return redirect('djangoapp:'+returnparts[0], returnparts[1]) #redirect user to the page they came from
+            else:
+                return redirect('djangoapp:'+returnparts[0])
     else: #if request method is not POST...
         return redirect('djangoapp:about') #redirect user to login page
 
