@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: deployment
+metadata:
+  labels:
+    run: dealership
+  name: dealership
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: dealership
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: dealership
+    spec:
+      containters:
+      - image: us.icr.io/$MY_NAMESAPCE/dealership:latest
+        imagePullPolicy: Always
+        name: dealership
+        ports:
+        - ContainterPort: 8000
+          protocol: TCP
+      restartPolicy: Always
