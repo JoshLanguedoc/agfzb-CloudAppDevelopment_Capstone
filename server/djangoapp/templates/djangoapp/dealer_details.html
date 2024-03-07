@@ -22,7 +22,7 @@
     <a href="{% url 'djangoapp:add_review' dealer_id %}" class="btn btn-outline-light ml-1">Add review</a>
 {% endblock %}
 {% block content %}
-    <div class="d-flex flex-wrap p-5 align-items-center justify-content-center" style="background-image: url({% static 'images/Details.jpeg' %}); background-repeat: no-repeat; background-size: cover; height: 500px; background-position: center center; aspect-ratio 16 / 9;"> 
+    <div class="d-flex flex-wrap p-5 align-items-center justify-content-center" style="background-image: url({{MEDIA_URL}}/banners/Details.jpeg); background-repeat: no-repeat; background-size: cover; height: 500px; background-position: center center; aspect-ratio 16 / 9;"> 
         <div class="shadow p-3 header-background">
             <h1 class="display-3 text-black">Dealer Reviews</h1>
         </div>

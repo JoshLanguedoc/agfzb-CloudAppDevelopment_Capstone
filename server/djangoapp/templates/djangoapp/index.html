@@ -3,7 +3,7 @@
 {% block title %}index{% endblock %}
 {% block dealerships %}<a class="nav-item nav-link active" href="#">Dealership List</a>{% endblock %}
 {% block content %}
-    <div class="d-flex flex-wrap p-5 align-content-center" style="background-image: url({% static 'images/List.jpeg' %}); background-repeat: no-repeat; background-size: cover; height: 500px; background-position: center center; aspect-ratio 16 / 9;"> 
+    <div class="d-flex flex-wrap p-5 align-content-center" style="background-image: url({{MEDIA_URL}}/banners/List.jpeg); background-repeat: no-repeat; background-size: cover; height: 500px; background-position: center center; aspect-ratio 16 / 9;"> 
         <div class="shadow p-3 header-background">
             <h1 class="display-3 text-black">Browse the many dealerships in our database</h1>
         </div>

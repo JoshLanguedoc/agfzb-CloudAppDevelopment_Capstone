@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: deployment
+kind: Deployment
 metadata:
   labels:
     run: dealership
@@ -19,11 +19,11 @@ spec:
       labels:
         run: dealership
     spec:
-      containters:
-      - image: us.icr.io/$MY_NAMESAPCE/dealership:latest
+      containers:
+      - image: us.icr.io/sn-labs-joshlanguedo/dealership:latest
         imagePullPolicy: Always
         name: dealership
         ports:
-        - ContainterPort: 8000
+        - containerPort: 8000
           protocol: TCP
       restartPolicy: Always
