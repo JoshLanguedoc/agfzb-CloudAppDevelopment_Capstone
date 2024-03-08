@@ -49,7 +49,7 @@ def post_request(url, json_payload, **kwargs):
 
 def get_dealers_from_cf(url, **kwargs):
     results = []
-    reviewsurl = "https://joshlanguedo-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
+    reviewsurl = "https://joshlanguedo-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/api/get_reviews"
 
     json_result = get_request(url)
     if json_result:
